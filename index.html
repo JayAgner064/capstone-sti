@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syscle</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="login-box">
+
+        <div id="loginForm" class="form active">
+            <h2>Hello, Welcome to Syscle</h2>
+
+            <form action="login.php" method="POST">
+                <label>Email / Username / Phone Number</label>
+                <input type="text" name="username" required>
+
+                <label>Password</label>
+                <div class="password-box">
+                    <input type="password" name="password" id="loginPassword" required>
+                    <i class="fa-solid fa-eye-slash" onclick="togglePassword('loginPassword')"></i>
+                </div>
+
+                <div class="options">
+                    <label><input type="checkbox"> Remember Me</label>
+                    <a href="#">Forgot Password</a>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+
+                <p class="switch">
+                    Don't have an account? 
+                    <a href="#" onclick="showRegister()">Sign up</a>
+                </p>
+            </form>
+        </div>
+
+        <div id="registerForm" class="form">
+            <h2>Create Account</h2>
+
+            <form action="register.php" method="POST">
+                <label>Username</label>
+                <input type="text" name="username" required>
+
+                <label>Email</label>
+                <input type="email" name="email" required>
+
+                <label>Password</label>
+                <div class="password-box">
+                    <input type="password" name="password" id="registerPassword" required>
+                    <i class="fa-solid fa-eye-slash" onclick="togglePassword('registerPassword')"></i>
+                </div>
+
+                <button type="submit" class="login-btn">Register</button>
+
+                <p class="switch">
+                    Already have an account? 
+                    <a href="#" onclick="showLogin()">Login</a>
+                </p>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function togglePassword(id) {
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+function showRegister() {
+    document.getElementById("loginForm").classList.remove("active");
+    document.getElementById("registerForm").classList.add("active");
+}
+
+function showLogin() {
+    document.getElementById("registerForm").classList.remove("active");
+    document.getElementById("loginForm").classList.add("active");
+}
+</script>
+
+</body>
+</html>
