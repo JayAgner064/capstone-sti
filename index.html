@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syscle</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/login-registry.css">
+    <style>
+        .form, .login-box {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="login-box">
-
-        <div id="loginForm" class="form active">
-            <h2>Hello, Welcome to Syscle</h2>
-
-            <form action="login.php" method="POST">
-                <label>Email / Username / Phone Number</label>
-                <input type="text" name="username" required>
+    <div class="container">
+        <div id="loginForm" class="login-box active">
+            <h2>Welcome to Syscle!</h2>
+            <form onsubmit="login(event)">
+                <label>Email / Username</label>
+                <input type="text" id="loginUsername" name="username" required>
 
                 <label>Password</label>
                 <div class="password-box">
@@ -26,28 +30,26 @@
                 </div>
 
                 <div class="options">
-                    <label><input type="checkbox"> Remember Me</label>
-                    <a href="#">Forgot Password</a>
+                    <label><input type="checkbox">Remember Me</label>
+                    <label><a href="#">Forgot Password</a></label>
                 </div>
 
                 <button type="submit" class="login-btn">Login</button>
-
                 <p class="switch">
-                    Don't have an account? 
-                    <a href="#" onclick="showRegister()">Sign up</a>
+                    Don't have an account yet? <a href="#" onclick="showRegister()">Sign up here!</a>
                 </p>
             </form>
         </div>
 
         <div id="registerForm" class="form">
-            <h2>Create Account</h2>
-
-            <form action="register.php" method="POST">
+        <div id="loginForm" class="login-box active">
+            <h2>Create an Account</h2>
+            <form onsubmit="register(event)">
                 <label>Username</label>
-                <input type="text" name="username" required>
+                <input type="text" id="registerUsername" name="username" required>
 
                 <label>Email</label>
-                <input type="email" name="email" required>
+                <input type="email" id="registerEmail" name="email" required>
 
                 <label>Password</label>
                 <div class="password-box">
@@ -56,33 +58,106 @@
                 </div>
 
                 <button type="submit" class="login-btn">Register</button>
-
                 <p class="switch">
-                    Already have an account? 
-                    <a href="#" onclick="showLogin()">Login</a>
+                    Already have an account? <a href="#" onclick="showLogin()">Login Here!</a>
                 </p>
             </form>
+            </div>
         </div>
-
     </div>
-</div>
 
-<script>
-function togglePassword(id) {
-    const input = document.getElementById(id);
-    input.type = input.type === "password" ? "text" : "password";
-}
+    <script>
+        if (!localStorage.getItem("users")) {
+            localStorage.setItem("users", JSON.stringify([]));
+        }
 
-function showRegister() {
-    document.getElementById("loginForm").classList.remove("active");
-    document.getElementById("registerForm").classList.add("active");
-}
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            input.type = input.type === "password" ? "text" : "password";
+        }
 
-function showLogin() {
-    document.getElementById("registerForm").classList.remove("active");
-    document.getElementById("loginForm").classList.add("active");
-}
-</script>
+        function showRegister() {
+            document.getElementById("loginForm").classList.remove("active");
+            document.getElementById("registerForm").classList.add("active");
+        }
 
+        function showLogin() {
+            document.getElementById("registerForm").classList.remove("active");
+            document.getElementById("loginForm").classList.add("active");
+        }
+
+        function register(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("registerUsername").value;
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
+
+            let users = JSON.parse(localStorage.getItem("users"));
+
+            const exist = users.find(u => u.username === username);
+
+            if (exist) {
+                alert("Username already exists!");
+                return;
+            }
+
+            users.push({ username, email, password });
+            localStorage.setItem("users", JSON.stringify(users));
+
+            alert("Registered Successfully!");
+            showLogin();
+        }
+
+        function login(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+
+            let users = JSON.parse(localStorage.getItem("users"));
+            const found = users.find(u => u.username === username && u.password === password);
+
+            if (found) {
+                localStorage.setItem("currentUser", username);
+                alert("Login Successfully!");
+                window.location.href = "homepage.html";
+            } else {
+                alert("Invalid Credentials!");
+            }
+        }
+
+        function downloadUsers() {
+            const userData = localStorage.getItem("users");
+
+            if (!userData || JSON.parse(userData).length === 0) {
+                alert("No users found to export!");
+                return;
+            }
+
+            const usersArray = JSON.parse(userData);
+
+            let fileContent = "SYSCLE USER REGISTRY\n";
+            fileContent += "====================\n\n";
+
+            usersArray.forEach((user, index) => {
+                fileContent += `User #${index + 1}\n`;
+                fileContent += `Username: ${user.username}\n`;
+                fileContent += `Email:    ${user.email}\n`;
+                fileContent += `Password: ${user.password}\n`;
+                fileContent += `--------------------\n`;
+            });
+
+            const blob = new Blob([fileContent], { type: "text/plain" });
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "syscle_users.txt";
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>

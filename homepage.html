@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-Syscle</title>
+
+    <link rel="stylesheet" href="styles/homepagestyles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <script>
+const user = localStorage.getItem("currentUser");
+
+if (!user) {
+    window.location.href = "index.html";
+}
+    </script>
+
+    <header class="top-bar">
+        <div class="logo">
+            🚲 <span>WEB-SYSCLE</span>
+        </div>
+
+        <div class="search-box">
+            <i class="fa fa-search"></i>
+            <input type="text" placeholder="Search...">
+            <i class="fa fa-times"></i>
+        </div>
+
+        <div class="icons">
+            <i class="fa fa-user"></i>
+            <i class="fa fa-shopping-cart"></i>
+            <i class="fa fa-home"></i>
+        </div>
+    </header>
+
+    <nav class="menu-bar">
+        <div class="menu-item">
+            <i class="fa fa-gear"></i> Gear
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-bicycle"></i> Bicycle
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-circle-info"></i> About Us
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-headset"></i> Service and Support
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="overlay">
+            <h1 id="welcomeText"></h1>
+
+            <button onclick="logout()">Logout</button>
+        </div>
+    </section>
+
+    <script>
+document.getElementById("welcomeText").innerText = "Welcome, " + user;
+
+function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "index.html";
+}
+    </script>
+
+</body>
+</html>

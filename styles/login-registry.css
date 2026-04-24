@@ -1,0 +1,130 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    /* Updated path: make sure the image exists in this folder */
+    background: url("../images-and-icons/capsbackground.jpeg") no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Base styles for both login and register boxes */
+.login-box {
+    background: rgba(230, 230, 230, 0.95); /* Semi-transparent like the reference */
+    padding: 40px;
+    width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: none; /* Hidden by default */
+}
+
+/* Class to show the active form */
+.login-box.active {
+    display: block;
+    animation: fade 0.4s ease-in-out;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.password-box {
+    position: relative;
+}
+
+.password-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.options a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background: #0c8ea0; /* Teal theme */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #0a7382;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.switch {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+.switch a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
